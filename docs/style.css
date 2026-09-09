@@ -50,7 +50,7 @@ main { padding-bottom: 60px; }
 .dz-formats span { padding: 4px 12px; border-radius: 999px; font-size: .75rem; font-weight: 700; background: rgba(255,255,255,.06); border: 1px solid var(--border); color: var(--text-dim); }
 .dz-formats span:last-child { color: var(--accent-2); border-color: rgba(6,182,212,.35); }
 .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; backdrop-filter: blur(12px); }
-.settings-panel { margin-top: 18px; }
+.settings-panel { margin-top: 18px; position: relative; z-index: 50; }
 .settings-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .settings-head h3 { font-size: 1.02rem; font-weight: 800; }
 .step-num { width: 28px; height: 28px; border-radius: 9px; flex-shrink: 0; background: var(--grad); color: #fff; font-weight: 800; font-size: .9rem; display: grid; place-items: center; box-shadow: 0 4px 14px rgba(99,102,241,.4); }
@@ -69,7 +69,7 @@ main { padding-bottom: 60px; }
 @keyframes attention-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,.45); } 50% { box-shadow: 0 0 0 8px rgba(99,102,241,0); } }
 .select-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .select-label .target-ext { color: var(--accent-2); font-weight: 800; }
-.select-menu { position: absolute; top: calc(100% + 8px); right: 0; left: 0; z-index: 60; background: var(--panel-solid); border: 1px solid var(--border-strong); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+.select-menu { position: absolute; top: calc(100% + 8px); right: 0; left: 0; z-index: 1000; background: var(--panel-solid); border: 1px solid var(--border-strong); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
 .select-search { padding: 10px; border-bottom: 1px solid var(--border); }
 .select-search input { width: 100%; padding: 9px 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text); font-family: var(--font); outline: none; }
 .select-search input:focus { border-color: var(--accent); }
