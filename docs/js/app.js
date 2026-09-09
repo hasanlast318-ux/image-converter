@@ -336,7 +336,7 @@
       if (!file.size) continue;
       const ext = extOf(file.name);
       if (state.files.some((f) => f.name === file.name && f.size === file.size)) continue;
-      state.files.push({ id: Math.random().toString(36).slice(2), file, name: file.name, size: file.size, ext: supported.has(ext) ? ext : '', status: 'pending' });
+      state.files.push({ id: Math.random().toString(36).slice(2), file, name: file.name, size: file.size, ext: supported.has(ext) ? ext : '', status: 'pending', doneTargets: new Set() });
       added++;
     }
     if (added) {
@@ -389,13 +389,35 @@
   }
   function doneCount() { return state.files.filter((f) => f.status === 'done' || f.status === 'error').length; }
   function updateBtn() {
-    ui.convertBtn.disabled = state.files.length === 0 || !state.target || state.converting;
+    const remaining = state.target
+      ? state.files.filter((f) => !(f.doneTargets || new Set()).has(state.target.ext)).length
+      : 0;
+    ui.convertBtn.disabled = state.files.length === 0 || !state.target || state.converting || remaining === 0;
     ui.menuBtn.classList.toggle('attention', state.files.length > 0 && !state.target);
     ui.convertBtnText.textContent = state.converting
       ? `جاري التحويل… (${doneCount()}/${state.files.length})`
-      : state.target ? `حوّل إلى ${state.target.ext.toUpperCase()}` : 'اختر الصيغة الهدف أولاً';
+      : !state.target
+        ? 'اختر الصيغة الهدف أولاً'
+        : remaining === 0
+          ? `كل الملفات محوّلة إلى ${state.target.ext.toUpperCase()}`
+          : `حوّل إلى ${state.target.ext.toUpperCase()}${remaining < state.files.length ? ` (${remaining} متبقٍ)` : ''}`;
   }
-  ui.clearAll.addEventListener('click', () => { if (!state.converting) { state.files = []; renderFiles(); } });
+  ui.clearAll.addEventListener('click', () => {
+    if (state.converting) return;
+    clearResults();
+    state.files = [];
+    renderFiles();
+  });
+  $('#clearResults').addEventListener('click', () => {
+    if (state.converting) return;
+    clearResults();
+    toast('تم مسح النتائج');
+  });
+  function clearResults() {
+    for (const r of state.results) { try { URL.revokeObjectURL(r.url); } catch (_) {} }
+    state.results = [];
+    renderResults();
+  }
 
   /* إعدادات */
   const quality = $('#quality');
@@ -413,6 +435,9 @@
   /* التحويل */
   ui.convertBtn.addEventListener('click', async () => {
     if (state.converting || !state.target || !state.files.length) return;
+    const T = state.target.ext;
+    const queue = state.files.filter((f) => !(f.doneTargets || new Set()).has(T));
+    if (!queue.length) { toast(`كل الملفات محوّلة بالفعل إلى ${T.toUpperCase()}`); return; }
     state.converting = true;
     updateBtn();
     const opts = {
@@ -420,20 +445,22 @@
       background: $('#background').value,
       maxDim: +($('#maxDim').value || 0),
     };
-    for (const item of state.files) {
-      if (item.status === 'done') continue;
+    for (const item of queue) {
       item.status = 'working';
       renderFiles();
       await new Promise((r) => setTimeout(r, 16)); // تنفس للواجهة
       try {
         const buf = new Uint8Array(await item.file.arrayBuffer());
-        const r = await convert(buf, item.ext, state.target.ext, opts);
+        const r = await convert(buf, item.ext, T, opts);
         const url = URL.createObjectURL(new Blob([r.buffer], { type: r.mime }));
+        const name = uniqueName(`${baseOf(item.name)}.${T}`);
         state.results.push({
-          id: item.id, name: `${baseOf(item.name)}.${state.target.ext}`, size: r.buffer.length,
+          id: item.id, name, size: r.buffer.length,
           originalSize: item.size, url, mime: r.mime, width: r.width, height: r.height,
         });
         item.status = 'done';
+        if (!item.doneTargets) item.doneTargets = new Set();
+        item.doneTargets.add(T);
         renderResults();
       } catch (err) {
         item.status = 'error';
@@ -444,11 +471,19 @@
     }
     state.converting = false;
     updateBtn();
-    const ok = state.files.filter((f) => f.status === 'done').length;
-    const failed = state.files.length - ok;
+    const ok = queue.filter((f) => f.status === 'done').length;
+    const failed = queue.length - ok;
     toast(failed ? `اكتمل: ${ok} نجح، ${failed} فشل` : `تم تحويل ${ok} ${ok === 1 ? 'صورة' : 'صور'} بنجاح 🎉`, failed && !ok ? 'err' : 'ok');
   });
   function baseOf(name) { return name.replace(/\.[^.]+$/, ''); }
+  function uniqueName(name) {
+    if (!state.results.some((r) => r.name === name)) return name;
+    const base = baseOf(name);
+    const ext = name.includes('.') ? name.split('.').pop() : '';
+    let k = 2;
+    while (state.results.some((r) => r.name === `${base} (${k}).${ext}`)) k++;
+    return `${base} (${k}).${ext}`;
+  }
 
   const THUMBABLE = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/avif', 'image/svg+xml', 'image/x-icon'];
   function renderResults() {
