@@ -1,0 +1,42 @@
+{
+  "name": "image-converter",
+  "version": "1.0.0",
+  "description": "محوّل صيغ الصور الاحترافي — يعمل محلياً بالكامل",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "selftest": "node scripts/selftest.js",
+    "gen-images": "node scripts/make-test-images.js"
+  },
+  "keywords": [
+    "image-converter",
+    "heic",
+    "raw",
+    "psd",
+    "webp",
+    "avif"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@jsquash/jxl": "^1.3.0",
+    "@napi-rs/canvas": "^1.0.9",
+    "ag-psd": "^31.0.2",
+    "archiver": "^8.0.0",
+    "express": "^5.2.1",
+    "heic-convert": "^2.1.0",
+    "libheif-js": "^1.23.2",
+    "libraw-wasm": "^1.6.0",
+    "multer": "^2.3.0",
+    "openjpeg": "^0.2.3",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.3.289",
+    "potrace": "^2.1.8",
+    "sharp": "^0.35.4",
+    "utif": "^3.1.0"
+  }
+}
