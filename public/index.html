@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محوّل الصور الاحترافي | 70 صيغة — يعمل محلياً</title>
+<meta name="description" content="محوّل صيغ صور احترافي يعمل محلياً بالكامل: HEIC، RAW، PSD، PDF، SVG، HDR، EXR والمزيد">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Cpath d='M30 38h26a10 10 0 0 1 0 20h-4m0 0 6-6m-6 6 6 6M70 62H44a10 10 0 0 1 0-20h4m0 0-6 6m6-6-6-6' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg-decoration" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-overlay"></div>
+</div>
+
+<header class="header">
+  <div class="container header-inner">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 10h8a3.5 3.5 0 0 1 0 7h-1.5"/><path d="m12.5 14.5-2 2 2 2"/>
+          <path d="M16 14H8a3.5 3.5 0 0 1 0-7h1.5"/><path d="m11.5 4.5 2-2-2-2" transform="translate(0,5)"/>
+          <path d="m9.5 4.5 2 2-2 2" transform="translate(0,2)"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>محوّل الصور <span class="grad">الاحترافي</span></h1>
+        <p>70 صيغة صور — تحويل حقيقي عالي الجودة</p>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="badge badge-green" id="statusBadge">
+        <span class="dot"></span> جاري التحقق…
+      </span>
+      <span class="badge badge-local" title="لا تُرفع صورك لأي خادم خارجي — المعالجة تتم على جهازك">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        يعمل محلياً 100%
+      </span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- منطقة الإفلات -->
+  <section class="dropzone-wrap" id="dropzoneWrap">
+    <div class="steps-row">
+      <span class="step-pill"><span class="step-num small">1</span> أضف صورك</span>
+      <span class="step-arrow">←</span>
+      <span class="step-pill"><span class="step-num small">2</span> اختر الصيغة الهدف</span>
+      <span class="step-arrow">←</span>
+      <span class="step-pill"><span class="step-num small">3</span> حوّل ونزّل</span>
+    </div>
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="اسحب الصور هنا أو انقر للاختيار">
+      <input type="file" id="fileInput" multiple accept="" hidden>
+      <div class="dz-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>
+        </svg>
+      </div>
+      <h2>اسحب صورك هنا</h2>
+      <p>أو <span class="link">انقر للاختيار</span> — يمكنك أيضاً اللصق مباشرة (Ctrl+V)</p>
+      <div class="dz-formats" id="acceptFormats">
+        <span>HEIC</span><span>RAW</span><span>PSD</span><span>PDF</span><span>SVG</span><span>AVIF</span><span>JXL</span><span>EXR</span><span>+63 صيغة أخرى</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- لوحة الإعدادات (ظاهرة دائماً — تختار منها الصيغة الهدف) -->
+  <section class="panel settings-panel" id="settingsPanel">
+    <div class="settings-head">
+      <span class="step-num">2</span>
+      <h3>اختر الصيغة الهدف والإعدادات</h3>
+    </div>
+    <div class="settings-grid">
+      <div class="setting">
+        <label>الصيغة الهدف</label>
+        <div class="select-wrap" id="formatSelectWrap">
+          <button type="button" class="select-btn" id="formatSelectBtn" aria-haspopup="listbox" aria-expanded="false">
+            <span class="select-label" id="formatSelectLabel">اختر الصيغة…</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="select-menu" id="formatMenu" hidden>
+            <div class="select-search">
+              <input type="text" id="formatSearch" placeholder="ابحث عن صيغة… (مثال: heic)" autocomplete="off">
+            </div>
+            <div class="select-list" id="formatList" role="listbox"></div>
+          </div>
+        </div>
+      </div>
+      <div class="setting">
+        <label for="quality">الجودة <span class="quality-val" id="qualityVal">90%</span></label>
+        <input type="range" id="quality" min="10" max="100" value="90" step="1">
+      </div>
+      <div class="setting">
+        <label for="maxDim">أقصى بُعد (بكسل) <span class="quality-val" id="maxDimVal">بدون</span></label>
+        <input type="number" id="maxDim" min="0" max="20000" step="16" placeholder="0 = بدون تغيير">
+      </div>
+      <div class="setting setting-color">
+        <label for="background">لون الخلفية <small>(للصيغ بلا شفافية)</small></label>
+        <div class="color-row">
+          <input type="color" id="background" value="#ffffff">
+          <button type="button" class="btn-swatch black" id="bgBlack" title="أسود"></button>
+          <button type="button" class="btn-swatch white" id="bgWhite" title="أبيض"></button>
+        </div>
+      </div>
+    </div>
+    <div class="setting-extra" id="vectorizeRow" hidden>
+      <label class="checkbox">
+        <input type="checkbox" id="vectorize">
+        <span class="checkmark"></span>
+        تحويل إلى مسارات متجهة حقيقية (Vectorize) بدلاً من تضمين الصورة
+      </label>
+    </div>
+  </section>
+
+  <!-- قائمة الملفات -->
+  <section class="files-section" id="filesSection" hidden>
+    <div class="settings-head">
+      <span class="step-num">3</span>
+      <h3>حوّل الآن</h3>
+    </div>
+    <div class="section-head">
+      <h3><span id="filesCount">0</span> ملف محدد</h3>
+      <div class="section-actions">
+        <button class="btn btn-ghost" id="clearAll" type="button">مسح الكل</button>
+      </div>
+    </div>
+    <div class="files-list" id="filesList"></div>
+
+    <div class="convert-bar">
+      <button class="btn btn-primary btn-lg" id="convertBtn" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2.2 8H17l-6 12 1.5-9H7l2-11z"/></svg>
+        <span id="convertBtnText">حوّل الآن</span>
+      </button>
+      <div class="convert-summary" id="convertSummary" hidden>
+        <span class="summary-item" id="sumTotal"></span>
+        <span class="summary-item ok" id="sumSaved"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- النتائج -->
+  <section class="results-section" id="resultsSection" hidden>
+    <div class="section-head">
+      <h3>النتائج <span class="count-pill" id="resultsCount">0</span></h3>
+      <div class="section-actions">
+        <button class="btn btn-secondary" id="downloadZip" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg>
+          تحميل الكل (ZIP)
+        </button>
+      </div>
+    </div>
+    <div class="results-grid" id="resultsGrid"></div>
+  </section>
+
+  <!-- لمحة عن الصيغ -->
+  <section class="formats-info panel" id="formatsInfoSection">
+    <h3>الصيغ المدعومة</h3>
+    <p class="muted">يقرأ ويحوّل من وإلى العائلات التالية — الصيغ المغلقة (مثل RAW الخاص بالكاميرات) يمكن قراءتها وتحويلها إلى أي صيغة، بينما الكتابة إليها غير ممكنة تقنياً وتُوضَّح في القائمة.</p>
+    <div class="format-groups" id="formatGroups"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>محوّل الصور الاحترافي — يعمل بالكامل على جهازك عبر Node.js + Sharp + LibRaw + PDF.js · لا حاجة لاتصال بالإنترنت</p>
+  </div>
+</footer>
+
+<div class="toast-container" id="toasts"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
